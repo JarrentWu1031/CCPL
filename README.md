@@ -11,6 +11,8 @@ This is the code implementation of our paper.
 
 ![Fig. 3](https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%203.jpg)
 
+<img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%202.jpg" alt="Fig. 2" style="zoom:50%;" />
+
 ### Requirements
 
 This code is tested under Ubuntu 14.04 and 16.04. The total project can well function under the following environment: 
