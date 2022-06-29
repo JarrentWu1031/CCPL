@@ -2,7 +2,7 @@
 
 This is the code implementation of our paper.
 
-[https://github.com/JarrentWu1031/CCPL/issues/1#issue-1288394968]
+![fig1](https://user-images.githubusercontent.com/108389661/176399241-61d3ba37-02a8-4aeb-8270-fb181f87b5d2.gif)
 
 
 ### Requirements
