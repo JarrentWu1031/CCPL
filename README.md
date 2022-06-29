@@ -9,7 +9,7 @@ This is the code implementation of our paper.
 
 ![Fig. 2](https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%202.jpg)
 
-![Fig. 3](images/Fig. 3.jpg)
+![Fig. 3](https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%203.jpg)
 
 ### Requirements
 
