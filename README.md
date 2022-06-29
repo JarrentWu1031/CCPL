@@ -11,7 +11,6 @@ This is the code implementation of our paper.
 
 ![Fig. 3](https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%203.jpg)
 
-<img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%202.jpg" alt="Fig. 2" style="zoom:10%;" />
 
 ### Requirements
 
