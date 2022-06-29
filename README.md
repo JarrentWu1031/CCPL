@@ -4,7 +4,7 @@ This is the code implementation of our paper.
 
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/108389661/176399241-61d3ba37-02a8-4aeb-8270-fb181f87b5d2.gif" alt="animated" />
+  <img src="https://user-images.githubusercontent.com/108389661/176405561-8a5153dc-6c70-4f34-9113-850bb4705266.gif" alt="animated" />
 </p>
 
 
