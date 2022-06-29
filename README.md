@@ -2,7 +2,7 @@
 
 This is the code implementation of our paper.
 
-<video src="images/fig1.avi"></video>
+[<video src="images/fig1.avi"></video>](https://github.com/JarrentWu1031/CCPL/issues/1#issue-1288394968)
 
 
 ### Requirements
