@@ -7,9 +7,9 @@ This is the code implementation of our paper.
   <img src="https://user-images.githubusercontent.com/108389661/176405561-8a5153dc-6c70-4f34-9113-850bb4705266.gif" alt="animated" />
 </p>
 
-![fig2](images/Fig. 2.jpg)
+![Fig. 2](images/Fig. 2.jpg)
 
-![fig3](images/Fig. 3.jpg)
+![Fig. 3](images/Fig. 3.jpg)
 
 ### Requirements
 
