@@ -37,7 +37,7 @@ For more details and parameters, please refer to --help option.
 
 ### Pre-trained Models
 
-To use the pre-trained models, please download here [pre-trained models](https://drive.google.com/drive/folders/1h6SZnZctkOv0b4dZVTZeONDAdlyg-A2f?usp=sharing) and specify them during training (These pre-trained models are trained under pytorch-1.9.1 and torchvision-0.10.1)
+To use the pre-trained models, please download here [pre-trained models]([https://drive.google.com/drive/folders/1XxhpzFqCVvboIyXKLfb2ocJZabPYu3pi?usp=sharing]) and specify them during training (These pre-trained models are trained under pytorch-1.9.1 and torchvision-0.10.1)
 
 ### Acknowledgments
 
