@@ -141,7 +141,7 @@ for i in tqdm(range(args.max_iter)):
         torch.save(state_dict, save_dir /
                    'decoder_iter_{:d}.pth.tar'.format(i + 1))
     if (i + 1) % args.save_model_interval == 0 or (i + 1) == args.max_iter:
-        state_dict = net.SCT(args.training_mode).state_dict()
+        state_dict = network.SCT.state_dict()
         for key in state_dict.keys():
             state_dict[key] = state_dict[key].to(torch.device('cpu'))
         torch.save(state_dict, save_dir /
