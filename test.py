@@ -114,9 +114,10 @@ else:
     style_dir = Path(args.style_dir)
     style_paths = [f for f in style_dir.glob('*')]
 
-SCT = net.SCT(args.testing_mode)
-decoder = net.decoder if args.testing_mode == 'art' else nn.Sequential(*list(net.decoder.children())[10:])
+decoder = net.decoder
 vgg = net.vgg
+network = net.Net(vgg, decoder, args.testing_mode)
+SCT = network.SCT
 
 SCT.eval()
 decoder.eval()
@@ -126,6 +127,7 @@ decoder.load_state_dict(torch.load(args.decoder))
 vgg.load_state_dict(torch.load(args.vgg))
 SCT.load_state_dict(torch.load(args.SCT))
 vgg = nn.Sequential(*list(vgg.children())[:31]) if args.testing_mode == 'art' else nn.Sequential(*list(vgg.children())[:18])
+decoder = decoder if args.testing_mode == 'art' else nn.Sequential(*list(net.decoder.children())[10:])
 
 vgg.to(device)
 decoder.to(device)

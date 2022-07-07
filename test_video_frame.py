@@ -106,9 +106,10 @@ content_loader = torch.utils.data.DataLoader(dataset    = content_dataset,
 					                         batch_size = 1,
 				 	                         shuffle    = False)
 
-SCT = net.SCT(args.testing_mode)
-decoder = net.decoder if args.testing_mode == 'art' else nn.Sequential(*list(net.decoder.children())[10:])
+decoder = net.decoder
 vgg = net.vgg
+network = net.Net(vgg, decoder, args.testing_mode)
+SCT = network.SCT
 
 SCT.eval()
 decoder.eval()
@@ -117,6 +118,7 @@ vgg.eval()
 decoder.load_state_dict(torch.load(args.decoder))
 vgg.load_state_dict(torch.load(args.vgg))
 SCT.load_state_dict(torch.load(args.SCT))
+decoder = decoder if args.testing_mode == 'art' else nn.Sequential(*list(net.decoder.children())[10:])
 vgg = nn.Sequential(*list(vgg.children())[:31]) if args.testing_mode == 'art' else nn.Sequential(*list(vgg.children())[:18])
 
 vgg.to(device)
