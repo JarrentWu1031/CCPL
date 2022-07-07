@@ -1,6 +1,6 @@
 # CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer
 
-This is the code implementation of our paper: [CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer], which is accepted by ECCV-2022
+This is the code implementation of our paper: [CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer](), which is accepted by ECCV-2022
 
 
 <p align="center">
