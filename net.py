@@ -2,6 +2,7 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from function import calc_mean_std, nor_mean_std, nor_mean, calc_cov
 import random
 
@@ -128,30 +129,6 @@ class SCT(nn.Module):
         gF = gF + smean.expand(cF_nor.size())
         return gF
 
-## PatchNCELoss code from: https://github.com/taesungp/contrastive-unpaired-translation 
-def PatchNCELoss(f_q, f_k, tau=0.07):
-    cross_entropy_loss = torch.nn.CrossEntropyLoss()
-    # batch size, channel size, and number of sample locations
-    B, C, S = f_q.shape
-    # 
-    # calculate v * v+: BxSx1
-    l_pos = (f_k * f_q).sum(dim=1)[:, :, None]
-    # 
-    # calculate v * v-: BxSxS
-    l_neg = torch.bmm(f_q.transpose(1, 2), f_k)
-    # 
-    # The diagonal entries are not negatives. Remove them.
-    identity_matrix = torch.eye(S,dtype=torch.bool)[None, :, :].cuda()
-    l_neg.masked_fill_(identity_matrix, -float('inf'))
-    # 
-    # calculate logits: (B)x(S)x(S+1)
-    logits = torch.cat((l_pos, l_neg), dim=2) / tau
-    # 
-    # return PatchNCE loss
-    predictions = logits.flatten(0, 1)
-    targets = torch.zeros(B * S, dtype=torch.long).cuda()
-    return cross_entropy_loss(predictions, targets) 
-
 mlp = nn.ModuleList([nn.Linear(64, 64),
                     nn.ReLU(),
                     nn.Linear(64, 16),
@@ -176,6 +153,55 @@ class Normalize(nn.Module):
         out = x.div(norm + 1e-7)
         return out
 
+class CCPL(nn.Module):
+    def __init__(self, mlp):
+        super(CCPL, self).__init__()
+        self.cross_entropy_loss = torch.nn.CrossEntropyLoss()
+        self.mlp = mlp
+
+    def NeighborSample(self, feat, layer, num_s, sample_ids=None):
+        b, c, h, w = feat.size()   
+        if sample_ids is None:    
+            sample_ids = []
+            while len(sample_ids) < num_s:
+                h_id = random.randint(0, h-3) # upper left corner
+                w_id = random.randint(0, w-3)
+                if [h_id, w_id] not in sample_ids:
+                    sample_ids += [[h_id, w_id]]
+            sample_ids = torch.tensor(sample_ids)        
+        h_ids = sample_ids[:,0]
+        w_ids = sample_ids[:,1]              
+        ft = torch.ones((b,c,8*num_s)).cuda() # b, c, 32 
+        for i in range(num_s):
+            f_c = feat[:,:,h_ids[i]+1,w_ids[i]+1].view(b,c,1) # centor
+            f = feat[:,:,h_ids[i]:h_ids[i]+3,w_ids[i]:w_ids[i]+3].flatten(2, 3) - f_c
+            ft[:,:,8*i:8*i+8] = torch.cat([f[:,:,:4], f[:,:,5:]], 2)
+        ft = ft.permute(0,2,1) # b, (8*num_s), c
+        for i in range(3):
+            ft = self.mlp[3*layer+i](ft)
+        ft = Normalize(2)(ft.permute(0,2,1)) 
+        return ft, sample_ids
+
+    ## PatchNCELoss code from: https://github.com/taesungp/contrastive-unpaired-translation 
+    def PatchNCELoss(self, f_q, f_k, tau):
+        B, C, S = f_q.shape
+        l_pos = (f_k * f_q).sum(dim=1)[:, :, None]
+        l_neg = torch.bmm(f_q.transpose(1, 2), f_k)
+        identity_matrix = torch.eye(S,dtype=torch.bool)[None, :, :].cuda()
+        l_neg.masked_fill_(identity_matrix, -float('inf'))
+        logits = torch.cat((l_pos, l_neg), dim=2) / tau
+        predictions = logits.flatten(0, 1)
+        targets = torch.zeros(B * S, dtype=torch.long).cuda()
+        return self.cross_entropy_loss(predictions, targets)
+ 
+    def forward(self, feats_q, feats_k, num_s, start_layer, end_layer, tau=0.07):
+        loss_ccp = 0.0
+        for i in range(start_layer, end_layer):
+            f_q, sample_ids = self.NeighborSample(feats_q[i], i, num_s)
+            f_k, _ = self.NeighborSample(feats_k[i], i, num_s, sample_ids)   
+            loss_ccp += self.PatchNCELoss(f_q, f_k, tau)
+        return loss_ccp    
+
 class Net(nn.Module):
     def __init__(self, encoder, decoder, training_mode='art'):
         super(Net, self).__init__()
@@ -187,10 +213,10 @@ class Net(nn.Module):
         self.decoder = decoder
         self.mode = training_mode
         self.mse_loss = nn.MSELoss()
-
+        self.end_layer = 4 if self.mode == 'art' else 3
         self.SCT = SCT(self.mode)
         self.mlp = mlp if self.mode == 'art' else mlp[:9]
-        self.end_layer = 4 if self.mode == 'art' else 3
+        self.CCPL = CCPL(self.mlp)
 
         # fix the encoder
         for name in ['enc_1', 'enc_2', 'enc_3', 'enc_4']:
@@ -210,48 +236,6 @@ class Net(nn.Module):
         for i in range(self.end_layer):
             input = getattr(self, 'enc_{:d}'.format(i + 1))(input)
         return input
-
-    def feature_sample(self, feat_q, feat_k, layer, num_s):
-        b, c, w, h = feat_q.size()   
-        r = 1
-        # r = 2 ** (3-i)
-        label = torch.zeros((w-2*r,h-2*r)).cuda()
-        w_id = []
-        h_id = []
-        s = num_s
-        while s > 0:
-            w_new = random.randint(0,w-2*r-1)
-            h_new = random.randint(0,h-2*r-1)
-            if label[w_new, h_new] == 0.0:
-                w_id += [w_new]
-                h_id += [h_new]
-                label[w_new, h_new] = 1.0
-                s -= 1
-            else:
-                pass
-        f_q = torch.ones((b,c,8*num_s)).cuda() # b, c, 32 
-        f_k = torch.ones((b,c,8*num_s)).cuda()
-        for i in range(num_s):
-            f_q_c = feat_q[:,:,w_id[i]+r,h_id[i]+r] # centor
-            f_k_c = feat_k[:,:,w_id[i]+r,h_id[i]+r]
-            for t in range(3):
-                for k in range(3):
-                    if 3*t+k < 4:
-                        num = 8*i+3*t+k
-                    elif 3*t+k == 4:
-                        pass
-                    else:
-                        num = 8*i+3*t+k-1
-                    f_q[:,:,num] = f_q_c - feat_q[:,:,w_id[i]+t,h_id[i]+k]
-                    f_k[:,:,num] = f_k_c - feat_k[:,:,w_id[i]+t,h_id[i]+k]
-        f_q = f_q.permute(0,2,1) # b, 32, c
-        f_k = f_k.permute(0,2,1)        
-        for i in range(3):
-            f_q = self.mlp[3*layer+i](f_q)
-            f_k = self.mlp[3*layer+i](f_k)
-        f_q = Normalize(2)(f_q.permute(0,2,1)) # b, c, s
-        f_k = Normalize(2)(f_k.permute(0,2,1))
-        return f_q, f_k
 
     def feature_compress(self, feat):
         feat = feat.flatten(2,3)
@@ -287,17 +271,7 @@ class Net(nn.Module):
         for i in range(1, end_layer):
             loss_s += self.calc_style_loss(g_t_feats[i], style_feats[i]) 
 
-        loss_ccp = 0.0
         start_layer = end_layer - num_layer
-        for i in range(start_layer, end_layer):
-            num_sample = 1 * (1 ** (3 - i)) # number of samples
-            b, c, w, h = g_t_feats[i].size()
-            f_q_w = torch.ones((b, c//4, num_s*8*num_sample)).cuda()
-            f_k_w = torch.ones((b, c//4, num_s*8*num_sample)).cuda()
-            for j in range(num_sample):
-                f_q, f_k = self.feature_sample(g_t_feats[i], content_feats[i], i, num_s)
-                f_q_w[:,:,num_s*8*j:num_s*8*j+num_s*8] = f_q
-                f_k_w[:,:,num_s*8*j:num_s*8*j+num_s*8] = f_k
-            loss_ccp += PatchNCELoss(f_q_w, f_k_w, tau)
+        loss_ccp = self.CCPL(g_t_feats, content_feats, num_s, start_layer, end_layer)
 
         return loss_c, loss_s, loss_ccp
