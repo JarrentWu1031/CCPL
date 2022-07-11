@@ -7,7 +7,7 @@ This is the Pytorch implementation of our paper: [CCPL: Contrastive Coherence Pr
   <img src="https://user-images.githubusercontent.com/108389661/176405561-8a5153dc-6c70-4f34-9113-850bb4705266.gif" alt="animated" />
 </p>
 
-![Fig. 2](https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%202.jpg)
+![Fig. 3](https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%203.jpg)
 
 
 ### Requirements
