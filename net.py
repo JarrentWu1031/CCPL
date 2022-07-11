@@ -182,7 +182,7 @@ class CCPL(nn.Module):
         return ft, sample_ids
 
     ## PatchNCELoss code from: https://github.com/taesungp/contrastive-unpaired-translation 
-    def self.PatchNCELoss(self, f_q, f_k, tau=0.07):
+    def PatchNCELoss(self, f_q, f_k, tau=0.07):
         # batch size, channel size, and number of sample locations
         B, C, S = f_q.shape
         # calculate v * v+: BxSx1
@@ -199,7 +199,6 @@ class CCPL(nn.Module):
         targets = torch.zeros(B * S, dtype=torch.long).to(f_q.device)
         return self.cross_entropy_loss(predictions, targets)
 
- 
     def forward(self, feats_q, feats_k, num_s, start_layer, end_layer, tau=0.07):
         loss_ccp = 0.0
         for i in range(start_layer, end_layer):
