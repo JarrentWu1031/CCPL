@@ -216,12 +216,13 @@ class Net(nn.Module):
         self.enc_3 = nn.Sequential(*enc_layers[11:18])  # relu2_1 -> relu3_1
         self.enc_4 = nn.Sequential(*enc_layers[18:31])  # relu3_1 -> relu4_1
         self.decoder = decoder
-        self.mode = training_mode
-        self.mse_loss = nn.MSELoss()
-        self.end_layer = 4 if self.mode == 'art' else 3
-        self.SCT = SCT(self.mode)
-        self.mlp = mlp if self.mode == 'art' else mlp[:9]
+        self.SCT = SCT(training_mode)
+        self.mlp = mlp if training_mode == 'art' else mlp[:9]
+        
         self.CCPL = CCPL(self.mlp)
+        self.mse_loss = nn.MSELoss()
+        self.end_layer = 4 if training_mode == 'art' else 3
+        self.mode = training_mode
 
         # fix the encoder
         for name in ['enc_1', 'enc_2', 'enc_3', 'enc_4']:
