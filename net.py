@@ -1,5 +1,4 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -94,6 +93,19 @@ vgg = nn.Sequential(
     nn.ReLU()  # relu5-4
 )
 
+mlp = nn.ModuleList([nn.Linear(64, 64),
+                    nn.ReLU(),
+                    nn.Linear(64, 16),
+                    nn.Linear(128, 128),
+                    nn.ReLU(),
+                    nn.Linear(128, 32),
+                    nn.Linear(256, 256),
+                    nn.ReLU(),
+                    nn.Linear(256, 64),
+                    nn.Linear(512, 512),
+                    nn.ReLU(),
+                    nn.Linear(512, 128)]) 
+
 class SCT(nn.Module):
     def __init__(self, training_mode='art'):
         super(SCT, self).__init__()
@@ -127,20 +139,7 @@ class SCT(nn.Module):
         gF = torch.bmm(s_cov, cF.flatten(2, 3)).view(b,c,w,h)
         gF = self.uncompress(gF)
         gF = gF + smean.expand(cF_nor.size())
-        return gF
-
-mlp = nn.ModuleList([nn.Linear(64, 64),
-                    nn.ReLU(),
-                    nn.Linear(64, 16),
-                    nn.Linear(128, 128),
-                    nn.ReLU(),
-                    nn.Linear(128, 32),
-                    nn.Linear(256, 256),
-                    nn.ReLU(),
-                    nn.Linear(256, 64),
-                    nn.Linear(512, 512),
-                    nn.ReLU(),
-                    nn.Linear(512, 128)])                                              
+        return gF                                             
 
 class Normalize(nn.Module):
 
@@ -171,7 +170,7 @@ class CCPL(nn.Module):
             sample_ids = torch.tensor(sample_ids)        
         h_ids = sample_ids[:,0]
         w_ids = sample_ids[:,1]              
-        ft = torch.ones((b,c,8*num_s)).cuda() # b, c, 32 
+        ft = torch.ones((b,c,8*num_s)).to(feat.device) # b, c, 32 
         for i in range(num_s):
             f_c = feat[:,:,h_ids[i]+1,w_ids[i]+1].view(b,c,1) # centor
             f = feat[:,:,h_ids[i]:h_ids[i]+3,w_ids[i]:w_ids[i]+3].flatten(2, 3) - f_c
@@ -183,16 +182,23 @@ class CCPL(nn.Module):
         return ft, sample_ids
 
     ## PatchNCELoss code from: https://github.com/taesungp/contrastive-unpaired-translation 
-    def PatchNCELoss(self, f_q, f_k, tau):
+    def self.PatchNCELoss(self, f_q, f_k, tau=0.07):
+        # batch size, channel size, and number of sample locations
         B, C, S = f_q.shape
+        # calculate v * v+: BxSx1
         l_pos = (f_k * f_q).sum(dim=1)[:, :, None]
+        # calculate v * v-: BxSxS
         l_neg = torch.bmm(f_q.transpose(1, 2), f_k)
-        identity_matrix = torch.eye(S,dtype=torch.bool)[None, :, :].cuda()
+        # The diagonal entries are not negatives. Remove them.
+        identity_matrix = torch.eye(S,dtype=torch.bool)[None, :, :].to(f_q.device)
         l_neg.masked_fill_(identity_matrix, -float('inf'))
+        # calculate logits: (B)x(S)x(S+1)
         logits = torch.cat((l_pos, l_neg), dim=2) / tau
+        # return PatchNCE loss
         predictions = logits.flatten(0, 1)
-        targets = torch.zeros(B * S, dtype=torch.long).cuda()
+        targets = torch.zeros(B * S, dtype=torch.long).to(f_q.device)
         return self.cross_entropy_loss(predictions, targets)
+
  
     def forward(self, feats_q, feats_k, num_s, start_layer, end_layer, tau=0.07):
         loss_ccp = 0.0
