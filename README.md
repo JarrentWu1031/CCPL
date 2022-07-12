@@ -32,9 +32,16 @@ This code is tested under Ubuntu 14.04 and 16.04. The total project can well fun
 * tensorboardX >= 1.8
 * other packages under python-3.6
 
+or simply run: 
+```
+pip install -r requirements.txt
+```
+
+
 <div align=center>
 <img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%203.jpg" width=85%>
 </div>
+
 
 ### Preparations
 
