@@ -34,8 +34,10 @@ This code is tested under Ubuntu 14.04 and 16.04. The total project can well fun
 
 Download [vgg_normalized.pth](https://drive.google.com/file/d/1EpkBA2K2eYILDSyPTt0fztz59UjAIpZU/view?usp=sharing) and put them under `models/`. Download COCO2014 (content dataset) and wikiart (style dataset)
 
+<div align=center>
 <img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%203.jpg" width=80%>
-
+</div>
+  
 ### Train
 
 To train a model, use command like: 
