@@ -2,30 +2,23 @@
 
 This is the Pytorch implementation of our paper: [CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer](https://arxiv.org/abs/2207.04808), which is accepted by ECCV-2022 as an Oral paper
 
+```
+@misc{https://doi.org/10.48550/arxiv.2207.04808,
+  doi = {10.48550/ARXIV.2207.04808},
+  url = {https://arxiv.org/abs/2207.04808},
+  author = {Wu, Zijie and Zhu, Zhen and Du, Junping and Bai, Xiang},
+  keywords = {Computer Vision and Pattern Recognition (cs.CV), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title = {CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+```
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/108389661/176405561-8a5153dc-6c70-4f34-9113-850bb4705266.gif" alt="animated" />
 </p>
 
-```
-@misc{https://doi.org/10.48550/arxiv.2207.04808,
-  doi = {10.48550/ARXIV.2207.04808},
-  
-  url = {https://arxiv.org/abs/2207.04808},
-  
-  author = {Wu, Zijie and Zhu, Zhen and Du, Junping and Bai, Xiang},
-  
-  keywords = {Computer Vision and Pattern Recognition (cs.CV), FOS: Computer and information sciences, FOS: Computer and information sciences},
-  
-  title = {CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer},
-  
-  publisher = {arXiv},
-  
-  year = {2022},
-  
-  copyright = {arXiv.org perpetual, non-exclusive license}
-}
-```
 
 ![Fig. 3](https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%203.jpg)
 
