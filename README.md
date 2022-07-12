@@ -2,7 +2,7 @@
 
 This is the Pytorch implementation of our paper:
 
-[**CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer**](https://arxiv.org/abs/2207.04808) ECCV 2022 (**Oral**) 
+[**CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer**](https://arxiv.org/abs/2207.04808), ECCV 2022 (**Oral**) 
 
 ```
 @misc{https://doi.org/10.48550/arxiv.2207.04808,
