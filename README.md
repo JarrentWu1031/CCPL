@@ -5,15 +5,11 @@ This is the Pytorch implementation of our paper:
 [**CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer**](https://arxiv.org/abs/2207.04808), ECCV 2022 (**Oral**) 
 
 ```
-@misc{https://doi.org/10.48550/arxiv.2207.04808,
-  doi = {10.48550/ARXIV.2207.04808},
-  url = {https://arxiv.org/abs/2207.04808},
-  author = {Wu, Zijie and Zhu, Zhen and Du, Junping and Bai, Xiang},
-  keywords = {Computer Vision and Pattern Recognition (cs.CV), FOS: Computer and information sciences, FOS: Computer and information sciences},
-  title = {CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer},
-  publisher = {arXiv},
-  year = {2022},
-  copyright = {arXiv.org perpetual, non-exclusive license}
+@Article{wu2022ccpl,
+  author  = {Zijie Wu and Zhen Zhu and Junping Du and Xiang Bai},
+  journal = {arXiv:2207.04808},
+  title   = {CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer},
+  year    = {2022},
 }
 ```
 
