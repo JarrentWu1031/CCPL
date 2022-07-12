@@ -11,7 +11,7 @@ This is the Pytorch implementation of our paper: [CCPL: Contrastive Coherence Pr
 
 ![Fig. 3](https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%203.jpg)
 
-``123''
+``123```
 
 ### Requirements
 
