@@ -2,7 +2,7 @@
 
 This is the Pytorch implementation of our paper:
 <br>
-[**CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer**](https://arxiv.org/abs/2207.04808), which is accepted by ECCV-2022 as an **Oral** paper
+[**CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer**](https://arxiv.org/abs/2207.04808) ECCV 2022 (**Oral**) 
 
 ```
 @misc{https://doi.org/10.48550/arxiv.2207.04808,
@@ -43,15 +43,15 @@ Download [vgg_normalized.pth](https://drive.google.com/file/d/1EpkBA2K2eYILDSyPT
 ### Train
 
 To train a model, use command like: 
-
+<br>
 `python train.py --content_dir <content_dir> --style_dir <style_dir> --log_dir <where to place logs> --save_dir <where to place the trained model> --training_mode <artistic or photo-realistic> --gpu <specify a gpu>`
 
 ### Test
 
 To test a model, use commands like 
-
+<br>
 `python test.py --content input/content/lenna.jpg --style input/style/in2.jpg --decoder <decoder_dir> --SCT <SCT_dir> --testing_mode <artistic or photo-realistic>` for images and 
-
+<br>
 `python test_video_frame.py --content_dir <video frames dir> --style_path input/style/in2.jpg --decoder <decoder_dir> --SCT <SCT_dir> --testing_mode <artistic or photo-realistic> `  for video frames 
 
 For more details and parameters, please refer to --help option.
