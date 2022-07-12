@@ -1,6 +1,8 @@
 # CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer
 
-This is the Pytorch implementation of our paper: [CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer](https://arxiv.org/abs/2207.04808), which is accepted by ECCV-2022 as an Oral paper
+This is the Pytorch implementation of our paper:
+
+[**CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer**](https://arxiv.org/abs/2207.04808), which is accepted by ECCV-2022 as an **Oral** paper
 
 ```
 @misc{https://doi.org/10.48550/arxiv.2207.04808,
@@ -31,22 +33,25 @@ This code is tested under Ubuntu 14.04 and 16.04. The total project can well fun
 * other packages under python-3.6
 
 <div align=center>
-<img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%203.jpg" width=90%>
+<img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%203.jpg" width=85%>
 </div>
 
 ### Preparations
 
-Download [vgg_normalized.pth](https://drive.google.com/file/d/1EpkBA2K2eYILDSyPTt0fztz59UjAIpZU/view?usp=sharing) and put them under `models/`. Download COCO2014 (content dataset) and wikiart (style dataset)
+Download [vgg_normalized.pth](https://drive.google.com/file/d/1EpkBA2K2eYILDSyPTt0fztz59UjAIpZU/view?usp=sharing) and put them under `models/`. Download [COCO2014 dataset](http://images.cocodataset.org/zips/train2014.zip) (content dataset) and [Wikiart dataset](https://www.kaggle.com/c/painter-by-numbers) (style dataset)
   
 ### Train
 
 To train a model, use command like: 
+
 `python train.py --content_dir <content_dir> --style_dir <style_dir> --log_dir <where to place logs> --save_dir <where to place the trained model> --training_mode <artistic or photo-realistic> --gpu <specify a gpu>`
 
 ### Test
 
 To test a model, use commands like 
+
 `python test.py --content input/content/lenna.jpg --style input/style/in2.jpg --decoder <decoder_dir> --SCT <SCT_dir> --testing_mode <artistic or photo-realistic>` for images and 
+
 `python test_video_frame.py --content_dir <video frames dir> --style_path input/style/in2.jpg --decoder <decoder_dir> --SCT <SCT_dir> --testing_mode <artistic or photo-realistic> `  for video frames 
 
 For more details and parameters, please refer to --help option.
