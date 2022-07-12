@@ -1,11 +1,13 @@
 # CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer
 
-This is the Pytorch implementation of our paper: [CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer](), which is accepted by ECCV-2022 as an Oral paper
+This is the Pytorch implementation of our paper: [CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer](https://arxiv.org/abs/2207.04808), which is accepted by ECCV-2022 as an Oral paper
 
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/108389661/176405561-8a5153dc-6c70-4f34-9113-850bb4705266.gif" alt="animated" />
 </p>
+
+
 
 ![Fig. 3](https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%203.jpg)
 
