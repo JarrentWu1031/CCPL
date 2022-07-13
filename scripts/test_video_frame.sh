@@ -1,4 +1,4 @@
-python ../test_video_frame.py \
+python ./test_video_frame.py \
 --vgg models/normalised.pth \
 --SCT [SCT dir] \
 --decoder [decoder dir] \
