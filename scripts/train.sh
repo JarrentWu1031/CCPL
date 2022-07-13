@@ -1,4 +1,4 @@
-python ../train.py \
+python ./train.py \
 --content_dir [path to the content dataset] \
 --style_dir [path to the style dataset] \
 --vgg models/vgg_normalised.pth \
