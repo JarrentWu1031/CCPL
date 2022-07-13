@@ -38,6 +38,35 @@ pip install -r requirements.txt
 <img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%203.jpg" width=85%>
 </div>
 
+### Artistic Style Transfer
+
+<div align=center>
+<img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%206.jpg" width=85%>
+</div>
+
+### Photo-realistic Style Transfer
+
+<div align=center>
+<img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%207.jpg" width=85%>
+</div>
+
+### Short-term Temporal Consistency
+
+<div align=center>
+<img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%205.jpg" width=85%>
+</div>
+
+### Long-term Temporal Consistency
+
+<div align=center>
+<img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/lterm.jpg" width=85%>
+</div>
+
+### Image-to-image translation
+
+<p align="center">
+  <img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/fig10.gif" alt="animated" />
+</p>
 
 ### Preparations
 
