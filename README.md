@@ -79,6 +79,11 @@ To train a model, use command like:
 ```
 python train.py --content_dir <content_dir> --style_dir <style_dir> --log_dir <where to place logs> --save_dir <where to place the trained model> --training_mode <artistic or photo-realistic> --gpu <specify a gpu>
 ```
+or:
+<br>
+```
+sh scripts/train.sh
+```
 
 ### Test
 
@@ -88,7 +93,12 @@ To test a model, use commands like
 python test.py --content input/content/lenna.jpg --style input/style/in2.jpg --decoder <decoder_dir> --SCT <SCT_dir> --testing_mode <artistic or photo-realistic>
 python test_video_frame.py --content_dir <video frames dir> --style_path input/style/in2.jpg --decoder <decoder_dir> --SCT <SCT_dir> --testing_mode <artistic or photo-realistic> 
 ```
-
+or:
+<br>
+```
+sh scripts/test.sh
+sh scripts/test_video_frame.sh
+```
 
 For more details and parameters, please refer to --help option.
 
