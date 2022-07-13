@@ -1,4 +1,4 @@
-python ../test.py \
+python ./test.py \
 --vgg models/vgg_normalised.pth \
 --SCT [trained SCT dir] \
 --decoder [trained decoder dir] \
