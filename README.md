@@ -5,11 +5,11 @@ This is the Pytorch implementation of our paper (ECCV 2022 **Oral**):
 [**Paper**](https://arxiv.org/abs/2207.04808) | [**Video Demo**](https://youtu.be/scZuJCXhL14) 
 
 ```
-@Article{wu2022ccpl,
-  author  = {Zijie Wu and Zhen Zhu and Junping Du and Xiang Bai},
-  journal = {arXiv:2207.04808},
-  title   = {CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer},
-  year    = {2022},
+@article{wu2022ccpl,
+  title={CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer},
+  author={Wu, Zijie and Zhu, Zhen and Du, Junping and Bai, Xiang},
+  journal={arXiv preprint arXiv:2207.04808},
+  year={2022}
 }
 ```
 
