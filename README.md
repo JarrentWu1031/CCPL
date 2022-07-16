@@ -2,7 +2,7 @@
 
 This is the Pytorch implementation of our paper (ECCV 2022 **Oral**):
 
-[**Paper**](https://arxiv.org/abs/2207.04808) | [**Video Demo**](https://youtu.be/dO8WlrPLcvQ) 
+[**Paper**](https://arxiv.org/abs/2207.04808) | [**Video Demo**](https://youtu.be/scZuJCXhL14) 
 
 ```
 @Article{wu2022ccpl,
