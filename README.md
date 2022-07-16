@@ -33,10 +33,17 @@ or simply run:
 pip install -r requirements.txt
 ```
 
+### Inspirations for CCPL
 
-<div align=center>
-<img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%203.jpg" width=85%>
-</div>
+<p align="center">
+  <img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/trim1.gif" alt="animated" width=80%/>
+</p>
+
+### Details of CCPL
+
+<p align="center">
+  <img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/trim2.gif" alt="animated" width=80%/>
+</p>
 
 ### Artistic Style Transfer
 
