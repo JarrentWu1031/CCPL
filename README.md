@@ -55,6 +55,12 @@ pip install -r requirements.txt
 <img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/Fig.%207.jpg" width=85%>
 </div>
 
+### Super-resolution PST
+
+<div align=center>
+<img src="https://github.com/JarrentWu1031/CCPL/blob/main/images/pho1.jpg" width=85%>
+</div>
+
 ### Short-term Temporal Consistency
 
 <div align=center>
