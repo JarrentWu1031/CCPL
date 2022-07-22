@@ -110,6 +110,7 @@ or:
 sh scripts/test.sh
 sh scripts/test_video_frame.sh
 ```
+To be noted, test_video_frame.py receives video frames as content inputs. 
 
 For more details and parameters, please refer to --help option.
 
