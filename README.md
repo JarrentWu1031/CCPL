@@ -3,11 +3,11 @@
 [**Paper**](https://arxiv.org/abs/2207.04808) | [**Video Demo**](https://youtu.be/scZuJCXhL14) 
 
 ```
-@article{wu2022ccpl,
+@inproceedings{wu2022ccpl,
   title={CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer},
   author={Wu, Zijie and Zhu, Zhen and Du, Junping and Bai, Xiang},
-  journal={arXiv preprint arXiv:2207.04808},
-  year={2022}
+  year={2022},
+  booktitle={ECCV},
 }
 ```
 
