@@ -1,6 +1,6 @@
 # CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer (ECCV 2022 **Oral**)
 
-[**Paper**](https://arxiv.org/abs/2207.04808) | [**Video Demo**](https://youtu.be/scZuJCXhL14) 
+[**Paper**](https://arxiv.org/abs/2207.04808) | [**Video Demo**](https://youtu.be/scZuJCXhL14) | [**Web Demo**](https://replicate.com/jarrentwu1031/ccpl) 
 
 ```
 @inproceedings{wu2022ccpl,
