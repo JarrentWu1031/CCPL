@@ -34,6 +34,15 @@ def calc_cov(feat):
     f_cov = torch.bmm(feat, feat.permute(0,2,1)).div(feat.size(2))
     return f_cov
 
+def _calc_feat_flatten_mean_std(feat):
+    # takes 3D feat (C, H, W), return mean and std of array within channels
+    assert (feat.size()[0] == 3)
+    assert (isinstance(feat, torch.FloatTensor))
+    feat_flatten = feat.view(3, -1)
+    mean = feat_flatten.mean(dim=-1, keepdim=True)
+    std = feat_flatten.std(dim=-1, keepdim=True)
+    return feat_flatten, mean, std
+
 def coral(source, target):
     # assume both source and target are 3D array (C, H, W)
     # Note: flatten -> f
