@@ -6,8 +6,10 @@
 @inproceedings{wu2022ccpl,
   title={CCPL: Contrastive Coherence Preserving Loss for Versatile Style Transfer},
   author={Wu, Zijie and Zhu, Zhen and Du, Junping and Bai, Xiang},
+  booktitle={European Conference on Computer Vision},
+  pages={189--206},
   year={2022},
-  booktitle={ECCV},
+  organization={Springer}
 }
 ```
 
