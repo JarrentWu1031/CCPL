@@ -158,33 +158,37 @@ class CCPL(nn.Module):
         self.cross_entropy_loss = torch.nn.CrossEntropyLoss()
         self.mlp = mlp
 
-    def NeighborSample(self, feat, layer, num_s, sample_ids=None):
-        b, c, h, w = feat.size()   
-        if sample_ids is None:    
-            sample_ids = []
-            while len(sample_ids) < num_s:
-                h_id = random.randint(0, h-3) # upper left corner
-                w_id = random.randint(0, w-3)
-                if [h_id, w_id] not in sample_ids:
-                    sample_ids += [[h_id, w_id]]
-            sample_ids = torch.tensor(sample_ids)        
-        h_ids = sample_ids[:,0]
-        w_ids = sample_ids[:,1]              
-        ft = torch.ones((b,c,8*num_s)).to(feat.device) # b, c, 32 
-        for i in range(num_s):
-            f_c = feat[:,:,h_ids[i]+1,w_ids[i]+1].view(b,c,1) # centor
-            f = feat[:,:,h_ids[i]:h_ids[i]+3,w_ids[i]:w_ids[i]+3].flatten(2, 3) - f_c
-            ft[:,:,8*i:8*i+8] = torch.cat([f[:,:,:4], f[:,:,5:]], 2)
-        ft = ft.permute(0,2,1) # b, (8*num_s), c
+    def NeighborSample(self, feat, layer, num_s, sample_ids=[]):
+        b, c, h, w = feat.size()
+        feat_r = feat.permute(0, 2, 3, 1).flatten(1, 2)
+        if sample_ids == []:
+            dic = {0: -(w+1), 1: -w, 2: -(w-1), 3: -1, 4: 1, 5: w-1, 6: w, 7: w+1}
+            s_ids = torch.randperm((h - 2) * (w - 2), device=feat.device) # indices of top left vectors
+            s_ids = s_ids[:int(min(num_s, s_ids.shape[0]))]
+            ch_ids = (s_ids // (w - 2) + 1) # centors
+            cw_ids = (s_ids % (w - 2) + 1)
+            c_ids = (ch_ids * w + cw_ids).repeat(8)
+            delta = [dic[i // num_s] for i in range(8 * num_s)]
+            delta = torch.tensor(delta).to(feat.device)
+            n_ids = c_ids + delta
+            sample_ids += [c_ids]
+            sample_ids += [n_ids]
+        else:
+            c_ids = sample_ids[0]
+            n_ids = sample_ids[1]
+        feat_c, feat_n = feat_r[:, c_ids, :], feat_r[:, n_ids, :]
+        feat_d = feat_c - feat_n
         for i in range(3):
-            ft = self.mlp[3*layer+i](ft)
-        ft = Normalize(2)(ft.permute(0,2,1)) 
-        return ft, sample_ids
+            feat_d =self.mlp[3*layer+i](feat_d)
+        feat_d = Normalize(2)(feat_d.permute(0,2,1))
+        return feat_d, sample_ids
 
     ## PatchNCELoss code from: https://github.com/taesungp/contrastive-unpaired-translation 
     def PatchNCELoss(self, f_q, f_k, tau=0.07):
         # batch size, channel size, and number of sample locations
         B, C, S = f_q.shape
+        ###
+        f_k = f_k.detach()
         # calculate v * v+: BxSx1
         l_pos = (f_k * f_q).sum(dim=1)[:, :, None]
         # calculate v * v-: BxSxS
@@ -202,7 +206,7 @@ class CCPL(nn.Module):
     def forward(self, feats_q, feats_k, num_s, start_layer, end_layer, tau=0.07):
         loss_ccp = 0.0
         for i in range(start_layer, end_layer):
-            f_q, sample_ids = self.NeighborSample(feats_q[i], i, num_s)
+            f_q, sample_ids = self.NeighborSample(feats_q[i], i, num_s, [])
             f_k, _ = self.NeighborSample(feats_k[i], i, num_s, sample_ids)   
             loss_ccp += self.PatchNCELoss(f_q, f_k, tau)
         return loss_ccp    
