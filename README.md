@@ -83,7 +83,7 @@ pip install -r requirements.txt
 
 ### Preparations
 
-Download [vgg_normalized.pth](https://drive.google.com/file/d/1EpkBA2K2eYILDSyPTt0fztz59UjAIpZU/view?usp=sharing) and put them under `models/`. Download [COCO2014 dataset](http://images.cocodataset.org/zips/train2014.zip) (content dataset) and [Wikiart dataset](https://www.kaggle.com/c/painter-by-numbers) (style dataset)
+Download [vgg_normalized.pth](https://github.com/naoto0804/pytorch-AdaIN/releases/download/v0.0.0/vgg_normalised.pth) and put them under `models/`. Download [COCO2014 dataset](http://images.cocodataset.org/zips/train2014.zip) (content dataset) and [Wikiart dataset](https://www.kaggle.com/c/painter-by-numbers) (style dataset)
   
 ### Train
 
